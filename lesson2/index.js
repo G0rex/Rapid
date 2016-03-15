@@ -5,7 +5,7 @@
 const http = require("http");
 var counter = 0;
 var server = http.createServer(function(req,res,next){
-    //res.end(req.url);
+    res.setHeader('Content-Type','text/html;charset=utf8');
     var temp = req.url;
 
     if(temp=="/index.html"){
