@@ -10,12 +10,13 @@ var server = http.createServer(function(req,res,next){
 
     if(temp=="/index.html"){
         counter++;
-        res.end(req.url);
+        res.end('Привіт,світ');
 
     }else if(temp=="/count.html"){
         res.end("Вы заходили на страничку index.html "+ counter +" раз");
     }else{
-        res.end('404 "Page not found!');
+        res.statusCode = 400;
+        res.end("Bad request");
     }
 
 });
