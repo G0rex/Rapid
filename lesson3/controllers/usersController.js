@@ -1,5 +1,5 @@
 var data;
-var database = require('../lib/module');
+var database = require('../lib/users');
 
 module.exports = {
     getAction: function (request, response, next) {
