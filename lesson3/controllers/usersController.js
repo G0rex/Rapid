@@ -1,9 +1,10 @@
 var data;
-var database = require('../lib/users');
+var database = require('../lib/module');
 
 module.exports = {
     getAction: function (request, response, next) {
         response.setHeader('Content-Type', 'text/html;charset=utf8');
+        response.setHeader('Content-Type', 'application/json');
         response.statusCode = 200;
         var listOfUsers = database.Get();
         response.end(JSON.stringify(listOfUsers));
@@ -37,19 +38,23 @@ module.exports = {
             }
             if (!(userData['name'].match(/([a-zа-яъэ]+)/i) && userData['name'] == userData['name'].match(/([a-zа-яъэ]+)/i)[0])) {
                 delete userData['name'];
+
             }
-            if (!validator.isEmail(userData['e-mail'])) {
+            if (!validator.isEmail(String(userData['e-mail']))) {
                 delete userData['e-mail'];
+
             }
-            if (userData['age'] < 6 || userData['age'] > 100) {
+            if (Number(userData['age']) < 6 || Number(userData['age']) > 100) {
                 delete userData['age'];
+
             }
             if (userData['nick'] && userData['name']) {
-
+console.log(userData);
                 database.Set(userData);
+                response.statusCode = 201;
                 response.end();
             } else {
-
+                console.log(userData);
                 response.statusCode = 400;
                 response.end("Bad request");
 
@@ -62,6 +67,7 @@ module.exports = {
     }
 };
 /*
+ curl -XPOST "http://localhost:3000/users" -H 'Content-Type: application/json' -d'{"nick": "foo","name": "value","age":41}'
  curl -XPOST "http://localhost:3000/users" -H 'Content-Type: application/json' -d'{"nick": "foo@bar.com","name": "value2","e-mail": "454355","description": "foo@bar.com","age": "45","avggg": "45"}'
  curl -XPOST "http://localhost:3000/users" -H 'Content-Type: application/json' -d'{"nick": "valera","name": "Inokentiy","e-mail": "fffff@gmail.com","description": "молодой и талантливый","age": "65"}'
  curl -XPOST "http://localhost:3000/users" -H 'Content-Type: application/json' -d'{"nick": "cxvcxv","name": "cvxcvcv","e-mail": "fcvf@gmail.com","description": "cxvxcvxc","age": "76"}'
