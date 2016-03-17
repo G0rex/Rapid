@@ -15,7 +15,7 @@ var server = http.createServer(function(req,res,next){
     }else if(temp=="/count.html"){
         res.end("Вы заходили на страничку index.html "+ counter +" раз");
     }else{
-        res.statusCode = 400;
+        res.statusCode = 404;
         res.end("Bad request");
     }
 
