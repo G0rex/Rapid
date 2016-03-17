@@ -10,7 +10,7 @@ var server = http.createServer(function(req,res,next){
 
     if(temp=="/index.html"){
         counter++;
-        res.end('Привіт,світ');
+        res.end('Привіт світ!');
 
     }else if(temp=="/count.html"){
         res.end("Вы заходили на страничку index.html "+ counter +" раз");
