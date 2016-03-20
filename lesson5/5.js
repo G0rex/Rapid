@@ -35,8 +35,7 @@ fs.readFile('./addresses.js', 'utf8', function (err, contents) {
     }
     console.log(resultOfTask);
 });
-
-console.log('after calling readFile');
+module.exports = resultOfTask;
 
 let server = http.createServer();
 server.listen(3001);
