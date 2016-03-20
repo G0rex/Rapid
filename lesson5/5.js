@@ -5,7 +5,7 @@ var fs = require('fs');
 var Array;
 var ListOfRegResult;
 var counter = 0;
-var resultOfTask = [];
+var results = [];
 fs.readFile('./addresses.js', 'utf8', function (err, contents) {
     var t = /'.+?'/g;//парсит по скобкам все строки
 
@@ -29,13 +29,13 @@ fs.readFile('./addresses.js', 'utf8', function (err, contents) {
                 Obj.flat = ListOfRegResult[9];
         }
 
-        resultOfTask [counter] = Obj;
+        results [counter] = Obj;
 
         counter++;
     }
-    console.log(resultOfTask);
+    console.log(results);
 });
-module.exports = resultOfTask;
+module.exports = results;
 
 let server = http.createServer();
 server.listen(3001);
