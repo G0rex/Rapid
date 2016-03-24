@@ -15,9 +15,14 @@ let client = new Memcached("127.0.0.1:11211");
 module.exports = {
 
     getAction: function * (next) {
+try {
         this.body=yield client.get(this.params.key);
 
         yield next;
+  } catch (e) {
+                this.status = 400;
+                this.body = {message: "Bad Request"};
+            }
     },
     putAction: function * (next) {
         console.log("PUT");
