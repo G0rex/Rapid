@@ -25,7 +25,7 @@ try {
             }
     },
     putAction: function * (next) {
-        console.log("PUT");
+
 
         var coWrapper = co.wrap(function*() {
             try {
@@ -42,11 +42,10 @@ try {
     },
 
     postAction: function * (next) {
-        console.log('POST');
         var coWrapper = co.wrap(function*() {
 
             try {
-                console.log(this.request.body.key+"3333333");
+ 
                 this.body=this.request.body;
                  client.set(this.request.body.key, this.request.body.value, this.request.body.expires);
                 console.log(client.get(this.request.body.key));
