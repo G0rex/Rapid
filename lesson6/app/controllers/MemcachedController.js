@@ -14,32 +14,19 @@ let client = new Memcached("127.0.0.1:11211");
 
 module.exports = {
 
-
     getAction: function * (next) {
-        console.log("GET");
-        var coWrapper = co.wrap(function*() {
-            try {
-                yield client.get(this.request.query.key);
-                console.log(yield client.get(this.request.query.key));
-            } catch (e) {
-                this.status = 400;
-                this.body = {message: "Bad Request"};
-            }
+        this.body=yield client.get(this.params.key);
 
-
-        }.bind(this));
-        coWrapper();
         yield next;
     },
     putAction: function * (next) {
         console.log("PUT");
 
         var coWrapper = co.wrap(function*() {
-            console.log(this.request.body.key);
-
             try {
-                yield client.replace(this.request.body.key, this.request.body.value, this.request.body.expires);
-                console.log(yield client.get(this.request.body.key));
+                this.body=this.request.body;
+                client.replace(this.request.body.key, this.request.body.value, this.request.body.expires);
+
             } catch (e) {
                 this.status = 400;
                 this.body = {message: "Bad Request"};
@@ -47,17 +34,18 @@ module.exports = {
 
         }.bind(this));
         coWrapper();
-        yield next;
     },
-
 
     postAction: function * (next) {
         console.log('POST');
         var coWrapper = co.wrap(function*() {
 
             try {
-                yield client.set(this.request.body.key, this.request.body.value, this.request.body.expires);
-                console.log(yield client.get(this.request.body.key));
+                console.log(this.request.body.key+"3333333");
+                this.body=this.request.body;
+                 client.set(this.request.body.key, this.request.body.value, this.request.body.expires);
+                console.log(client.get(this.request.body.key));
+
             } catch (e) {
                 this.status = 400;
                 this.body = {message: "Bad Request"};
@@ -65,16 +53,16 @@ module.exports = {
 
         }.bind(this));
         coWrapper();
-        yield next;
 
     },
     deleteAction: function * (next) {
+
         var coWrapper = co.wrap(function*() {
-            console.log('DELETE');
             try {
-                console.log(this.request.body.key);
-                yield client.del(this.request.body.key);
-                console.log(yield client.get(this.request.body.key));
+
+                this.body=this.request.body;
+                client.del(this.request.body.key);
+                console.log(client.get(this.request.body.key));
             } catch (e) {
                 this.status = 400;
                 this.body = {message: "Bad Request"};
@@ -83,7 +71,5 @@ module.exports = {
 
         }.bind(this));
         coWrapper();
-
     }
 };
-
