@@ -19,7 +19,7 @@ module.exports = {
         try {
             var result=yield client.get(this.params.key);
             this.body=result;
-
+	this.status = 200;
         } catch (e) {
             this.status = 400;
             this.body = {message: "Bad Request"};
